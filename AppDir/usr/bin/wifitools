@@ -3,7 +3,7 @@
 # Wifi Tools is a collection of common tasks for wireless pentesting.
 
 # Import common functions
-source ./lib/logging.sh
+source /usr/lib/yojimbosecurity/logging.sh
 
 # Global variables
 VERSION="0.0.1"
