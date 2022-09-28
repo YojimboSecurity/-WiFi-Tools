@@ -1,7 +1,7 @@
 <h1 align="center">
   <a href="https://github.com/YojimboSecurity/wifi-tools">
     <!-- Please provide path to your logo here -->
-    <img src="docs/images/logo.svg" alt="Logo" width="100" height="100">
+    <img src="docs/images/logo.png" alt="Logo" width="200" height="200">
   </a>
 </h1>
 
@@ -37,9 +37,7 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
-- [Roadmap](#roadmap)
 - [Support](#support)
-- [Project assistance](#project-assistance)
 - [Contributing](#contributing)
 - [Authors & contributors](#authors--contributors)
 - [Security](#security)
@@ -52,81 +50,47 @@
 
 ## About
 
-> **[?]**
-> Provide general information about your project here.
-> What problem does it (intend to) solve?
-> What is the purpose of your project?
-> Why did you undertake it?
-> You don't have to answer all the questions -- just the ones relevant to your project.
-
-<details>
-<summary>Screenshots</summary>
-<br>
-
-> **[?]**
-> Please provide your screenshots here.
-
-|                               Home Page                               |                               Login Page                               |
-| :-------------------------------------------------------------------: | :--------------------------------------------------------------------: |
-| <img src="docs/images/screenshot.png" title="Home Page" width="100%"> | <img src="docs/images/screenshot.png" title="Login Page" width="100%"> |
-
-</details>
+WiFi-Tools is a collection of tools for WiFi testing.
 
 ### Built With
 
-> **[?]**
-> Please provide the technologies that are used in the project.
+- [Bash](https://www.gnu.org/software/bash/)
+- [Make](https://www.gnu.org/software/make/)
+- [AppImage](https://docs.appimage.org/introduction/index.html)
 
 ## Getting Started
 
 ### Prerequisites
 
-> **[?]**
-> What are the project requirements/dependencies?
+- [ip]()
+- [iw]()
 
 ### Installation
 
-> **[?]**
-> Describe how to install and get started with the project.
+Download the AppImage from the [releases]() page and run it.
+
+```bash
+sudo wifitools-x86_64.AppImage
+```
 
 ## Usage
 
-> **[?]**
-> How does one go about using it?
-> Provide various use cases and code examples here.
+To run the tools, you need to be root.
 
-## Roadmap
-
-See the [open issues](https://github.com/YojimboSecurity/wifi-tools/issues) for a list of proposed features (and known issues).
-
-- [Top Feature Requests](https://github.com/YojimboSecurity/wifi-tools/issues?q=label%3Aenhancement+is%3Aopen+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
-- [Top Bugs](https://github.com/YojimboSecurity/wifi-tools/issues?q=is%3Aissue+is%3Aopen+label%3Abug+sort%3Areactions-%2B1-desc) (Add your votes using the 👍 reaction)
-- [Newest Bugs](https://github.com/YojimboSecurity/wifi-tools/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
+```bash
+sudo wifitools
+```
 
 ## Support
-
-> **[?]**
-> Provide additional ways to contact the project maintainer/maintainers.
 
 Reach out to the maintainer at one of the following places:
 
 - [GitHub issues](https://github.com/YojimboSecurity/wifi-tools/issues/new?assignees=&labels=question&template=04_SUPPORT_QUESTION.md&title=support%3A+)
 - Contact options listed on [this GitHub profile](https://github.com/YojimboSecurity)
 
-## Project assistance
-
-If you want to say **thank you** or/and support active development of WiFi Tools:
-
-- Add a [GitHub Star](https://github.com/YojimboSecurity/wifi-tools) to the project.
-- Tweet about the WiFi Tools.
-- Write interesting articles about the project on [Dev.to](https://dev.to/), [Medium](https://medium.com/) or your personal blog.
-
-Together, we can make WiFi Tools **better**!
-
 ## Contributing
 
 First off, thanks for taking the time to contribute! Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make will benefit everybody else and are **greatly appreciated**.
-
 
 Please read [our contribution guidelines](docs/CONTRIBUTING.md), and thank you for being involved!
 
@@ -150,7 +114,3 @@ This project is licensed under the **MIT license**.
 See [LICENSE](LICENSE) for more information.
 
 ## Acknowledgements
-
-> **[?]**
-> If your work was funded by any organization or institution, acknowledge their support here.
-> In addition, if your work relies on other software libraries, or was inspired by looking at other work, it is appropriate to acknowledge this intellectual debt too.
