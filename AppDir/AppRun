@@ -1,0 +1,125 @@
+#!/bin/bash
+# This script is used by AppImage to create/setup the app
+
+HERE="$(dirname "$(readlink -f "${0}")")"
+
+#######################################
+# check_if_root - Check if the user is root
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+# Outputs:
+#   None
+#######################################
+check_if_root() {
+    if [[ $EUID -ne 0 ]]; then
+        echo "This script must be run as root" 1>&2
+        exit 1
+    fi
+}
+
+#######################################
+# check_ip_command - Check if the ip command is installed
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+# Outputs:
+#   None
+#######################################
+check_ip_command() {
+    if ! command -v ip &> /dev/null; then
+        echo "ip command not found, installing...."
+        apt install -y iproute2
+    fi
+}
+
+#######################################
+# check_iw_command - Check if the iw command is installed
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+# Outputs:
+#   None
+#######################################
+check_iw_command() {
+    if ! command -v iw &> /dev/null; then
+        echo "iw command not found, installing..."
+        apt install -y iw
+    fi
+}
+
+#######################################
+# check_dependencies - Check if the dependencies are installed
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+# Outputs:
+#   Nonw
+#######################################
+check_dependencies() {
+    check_ip_command
+    check_iw_command
+}
+
+#######################################
+# move_lib - Move the lib directory to /usr/lib/yojimbosecurity
+# Globals:
+#   HERE - The directory of the AppRun script
+# Arguments:
+#   None
+# Returns:
+#   None
+# Outputs:
+#   None
+#######################################
+move_lib() {
+    cp -r "${HERE}"/usr/lib /usr/lib/yojimbosecurity
+}
+
+#######################################
+# move_wifitools - Move the wifitools script to /usr/bin
+# Globals:
+#   HERE - The directory of the AppRun script
+# Arguments:
+#   None
+# Returns:
+#   None
+# Outputs:
+#   None
+#######################################
+move_wifitools() {
+    cp -r "${HERE}"/usr/bin/wifitools /usr/bin
+}
+
+#######################################
+# main - Main function
+# Globals:
+#   None
+# Arguments:
+#   $@ - Command line arguments
+# Returns:
+#   None
+# Outputs:
+#   None
+#######################################
+main() {
+    check_if_root
+    check_dependencies
+    move_lib
+    move_wifitools
+    /usr/bin/wifitools "$@"
+}
+
+main "$@"
