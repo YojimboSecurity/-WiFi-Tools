@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+#
+# Wifi Tools is a collection of common tasks for wireless testing.
+
+source /usr/lib/yojimbosecurity/logging.sh
+source ./lib/wifi.sh
+
+# TODO: 
+#  - [ ] make the sleep time configurable
+#  - [ ] make the channel list configurable
+#  - [ ] make sure the interfave is in monitor mode
+#  - [ ] make sure the interface is up
+
+#######################################
+# _help - print help message
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+# Outputs:
+#   help message
+#######################################
+_help(){
+    echo "salt pork"
+}
+
+#######################################
+# clean_exit - exit cleanly
+# Globals:
+#   None
+# Arguments:
+#   None
+# Returns:
+#   None
+# Outputs:
+#   None
+#######################################
+clean_exit(){
+    echo ""
+    log::info "Exiting..."
+    exit 0
+}
+
+#######################################
+# check_args - check arguments
+# Globals:
+#   None
+# Arguments:
+#   $1 - interface
+# Returns:
+#   None
+# Outputs:
+#   None
+#######################################
+check_args(){
+    if [[ -z "$1" ]]; then
+        log::err "No interface specified"
+        _help
+        exit 1
+    fi
+}
+
+#######################################
+# channel_hop - hop between channels
+# Globals:
+#   None
+# Arguments:
+#   $1 - interface
+# Returns:
+#   1 - if error setting channel on the interface
+# Outputs:
+#   None
+#######################################
+channel_hop(){
+    local interface=$1
+    check_args "$interface"
+    wifi::check_mode "$interface"
+    echo "Press Ctrl+C to stop"
+    echo "interface: $interface"
+    echo -n "channel: "
+    while true; do
+        for channel in 01 06 11 02 07 10 03 08 04 09 05
+        do
+            printf "%s""${channel:0:1}""${channel:1:1}""\b\b"
+            iw dev "$interface" set channel "${channel}" || return 1
+            sleep 1
+        done
+    done
+}
+
+#######################################
+# main - main function
+# Globals:
+#   None
+# Arguments:
+#   $@ - arguments
+# Returns:
+#   None
+# Outputs:
+#   None
+#######################################
+main(){
+    log::info "Starting..."
+    case "$1" in
+        -h|--help)
+            _help
+            ;;
+        channel-hop)
+            channel_hop "$2"
+            ;;
+        *)
+            _help
+            ;;
+    esac
+}
+
+# trap ctrl-c and call clean_exit()
+# may want to do more here in the future
+trap 'clean_exit' SIGINT SIGTERM SIGKILL
+
+main "$@"
