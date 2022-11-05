@@ -1,16 +1,21 @@
 #!/usr/bin/env bash
 #
-# Wifi Tools is a collection of common tasks for wireless pentesting.
+# Wifi Tools is a collection of common tasks for wireless testing.
 
-# Import common functions
 source ./lib/logging.sh
+source ./lib/wifi.sh
 
-# Global variables
-VERSION="0.0.1"
-DEBUG=false
+# Globals:
+Interface=""
+
+# TODO: 
+#  - [ ] make the sleep time configurable
+#  - [ ] make the channel list configurable
+#  - [ ] make sure the interfave is in monitor mode
+#  - [ ] make sure the interface is up
 
 #######################################
-# _help - display help message
+# _help - print help message
 # Globals:
 #   None
 # Arguments:
@@ -18,14 +23,14 @@ DEBUG=false
 # Returns:
 #   None
 # Outputs:
-#   None
+#   help message
 #######################################
 _help(){
-    echo "help"
+    echo "salt pork"
 }
 
 #######################################
-# check_if_root - Check if the user is root
+# clean_exit - exit cleanly
 # Globals:
 #   None
 # Arguments:
@@ -35,43 +40,97 @@ _help(){
 # Outputs:
 #   None
 #######################################
-check_if_root() {
-    if [[ $EUID -ne 0 ]]; then
-        log::err "This script must be run as root" 1>&2
+clean_exit(){
+    echo ""
+    log::info "Exiting..."
+    exit 0
+}
+
+#######################################
+# check_args - check arguments
+# Globals:
+#   None
+# Arguments:
+#   $1 - interface
+# Returns:
+#   None
+# Outputs:
+#   None
+#######################################
+check_args(){
+    if [[ -z "$1" ]]; then
+        log::err "No interface specified"
+        wifi::select_interface
         exit 1
     fi
 }
 
 #######################################
-# check_cli_args - check cli arguments
+# channel_hop - hop between channels
 # Globals:
 #   None
 # Arguments:
-#   $@ - commandl line arguments
+#   $1 - interface
 # Returns:
-#   None
+#   1 - if error setting channel on the interface
 # Outputs:
 #   None
 #######################################
-check_cli_args(){
-    log::debug "checking args $@"
+channel_hop(){
+    Interface="$1"
+    echo "test: $Interface"
+    check_args "$Interface"
+    wifi::check_mode "$Interface"
+    echo "Press Ctrl+C to stop"
+    echo "interface: $Interface"
+    echo -n "channel: "
+    while true; do
+        for channel in 01 06 11 02 07 10 03 08 04 09 05
+        do
+            printf "%s""${channel:0:1}""${channel:1:1}""\b\b"
+            iw dev "$Interface" set channel "${channel}" || return 1
+            sleep 1
+        done
+    done
 }
 
 #######################################
-# main - Main function
+# main - main function
 # Globals:
 #   None
 # Arguments:
-#   $@ - Command line arguments
+#   $@ - arguments
 # Returns:
 #   None
 # Outputs:
 #   None
 #######################################
-main() {
-    check_if_root
-    check_cli_args "$@"
-    log::debug "wifitools"
+main(){
+    log::info "Starting..."
+    for arg in $@; do
+        case "$arg" in
+            -h|--help)
+                _help
+                exit 0
+                ;;
+            -d|--debug)
+                DEBUG=true
+                shift
+                ;;
+        esac
+    done
+    case "$1" in
+        channel-hop)
+            channel_hop "$2"
+            ;;
+        *)
+            _help
+            ;;
+    esac
 }
+
+# trap ctrl-c and call clean_exit()
+# may want to do more here in the future
+trap 'clean_exit' SIGINT SIGTERM SIGKILL
 
 main "$@"

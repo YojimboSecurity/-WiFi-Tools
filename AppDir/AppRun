@@ -85,7 +85,7 @@ check_dependencies() {
 #   None
 #######################################
 move_lib() {
-    cp -r "${HERE}"/usr/lib/yojimbosecurity /usr/lib
+    cp -r "${HERE}"/usr/lib /usr/lib/yojimbosecurity
 }
 
 #######################################

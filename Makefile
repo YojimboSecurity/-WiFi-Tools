@@ -11,10 +11,9 @@ help:
 build:
 	@echo "Building wifitools"
 	cp wifitools AppDir/usr/bin/wifitools
-	cp -r lib AppDir/usr/lib/yojimbosecurity
-	sed -i "s/.\/lib\/logging.sh/\/usr\/lib\/yojimbosecurity\/logging.sh/g" AppDir/usr/bin/wifitools
-	cp -r lib/* AppDir/usr/lib/yojimbosecurity/
-	sed -i "s/.\/lib\/color.sh/\/usr\/lib\/yojimbosecurity\/color.sh/g" AppDir/usr/lib/yojimbosecurity/logging.sh
+	cp -r lib/* AppDir/usr/lib
+	find AppDir/ -type f -print0 | xargs -0 sed -i 's/.\/lib\/logging.sh/\/usr\/lib\/yojimbosecurity\/logging.sh/g'
+	find AppDir/ -type f -print0 | xargs -0 sed -i 's/.\/lib\/color.sh/\/usr\/lib\/yojimbosecurity\/color.sh/g' 
 	ARCH=x86_64 appimagetool AppDir
 	@echo "Done"
 
